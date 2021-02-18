@@ -21,3 +21,17 @@ RUN if [ "$INSTALL_AZURE_CLI" = "true" ]; then bash /tmp/library-scripts/azcli-d
 
 # [Optional] Uncomment this line to install global node packages.
 # RUN su vscode -c "source /usr/local/share/nvm/nvm.sh && npm install -g <your-package-here>" 2>&1
+
+# Install PowerShell
+RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
+    && apt-get install -y wget apt-transport-https software-properties-common \
+    # Download the Microsoft repository GPG keys
+    && wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
+    # Register the Microsoft repository GPG keys
+    && dpkg -i packages-microsoft-prod.deb \
+    # Update the list of products
+    && apt-get update \
+    # Enable the "universe" repositories
+    && add-apt-repository universe \
+    # Install PowerShell
+    && apt-get install -y powershell
